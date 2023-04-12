@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Added comment to check git
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('musker.urls')),
