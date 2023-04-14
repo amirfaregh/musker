@@ -5,9 +5,9 @@
         <div class="row">
             <div class="col-8">
                 {% if profile.profile_image %}
-                  <img src="{{profile.profile_image.url}}" alt="" width="100" style="border-radius: 50%; border: solid;">
+                  <img src="{{profile.profile_image.url}}" alt="" width="100" class="rounded-circle">
                 {% else %}
-                  <img src="{% static 'images/profile_pic.png' %}" width="100" style="border-radius: 50%; border: solid;" alt="...">
+                  <img src="{% static 'images/profile_pic.png' %}" width="100" class="rounded-circle" alt="...">
                 {% endif %}
                 <h1>{{ profile.user.username}}'s Profile</h1>
                 <br>
@@ -23,11 +23,21 @@
                 {% if meeps %}
                 {% for meep in meeps %}
                 <div class="alert alert-dark" role="alert">
-                  <div class="alert alert-dark" role="alert">
-                    {{ meep.body }}<br>
-                    <small class="text-muted">
-                    at {{ meep.created_at}} by @{{ meep.user.username }}<br>
-                    </small>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-1">
+                        {% if profile.profile_image %}
+                          <img src="{{ profile.profile_image.url }}" height="50" width="50" class="rounded-circle" alt="">
+                        {% else %}
+                          <img src="{% static 'images/profile_pic.png' %}" height="50" width="50" class="rounded-circle" alt="...">
+                        {% endif %}</div>
+                        <div class="col-11">
+                        {{ meep.body }}<br>
+                        <small class="text-muted">
+                        at {{ meep.created_at}} by <a class="card-text" href="{% url 'profile' profile.user.id %}" >@{{ profile.user.username|lower }}</a><br>
+                        </small>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 {% endfor %}

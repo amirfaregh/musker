@@ -5,11 +5,14 @@
     <br>
     {% if profiles %}
         {% for profile in profiles %}
-
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="{% static 'images/profile_pic.png' %}" class="img-fluid rounded-start" alt="...">
+                {% if profile.profile_image %}
+                  <img src="{{ profile.profile_image.url }}" height="150" width="150" alt="">
+                {% else %}
+                  <img src="{% static 'images/profile_pic.png' %}" height="150" width="150" alt="...">
+                {% endif %}
               </div>
               <div class="col-md-8">
                 <div class="card-body">
