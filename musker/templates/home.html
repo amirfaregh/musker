@@ -22,14 +22,19 @@
 				<img src="{% static 'images/profile_pic.png' %}" width=50 height=50 class="rounded-circle" alt="{{ profile.user.username }}">	
 				{% endif %}
 		</div>
-
 		<div class="col-11">
 		  {{ meep.body }}<br/>
-		  <small class="text-muted">
-		  	({{ meep.created_at}}) By 
-		  	@{{ meep.user.username }}
-
-		  </small>
+		  	<small class="text-muted">
+		  		({{ meep.created_at}}) By 
+		  		@{{ meep.user.username }}
+				<br>
+				- {{meep.number_of_likes}} Likes 
+				{% if user in meep.likes.all %}
+				<a href="{% url 'meep_like' meep.id %}">Unlike</a>
+				{% else %}
+				<a href="{% url 'meep_like' meep.id %}">Like</a>
+				{% endif %}
+			</small>
 		</div><br/><br/>
 	
 			</div>
