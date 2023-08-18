@@ -10,6 +10,32 @@
                   <img src="{% static 'images/profile_pic.png' %}" width="100" class="rounded-circle" alt="...">
                 {% endif %}
                 <h1>{{ profile.user.username}}'s Profile</h1>
+                {% if profile.homepage_link %}
+                <a href="{{ profile.homepage_link }}" target="new">
+                      <i class="fa-solid fa-link" style="color:rgb(22, 85, 168)"></i></a>
+                      {% endif %}
+                      &nbsp;&nbsp;
+                      {% if profile.facebook_link %}
+                <a href="{{ profile.facebook_link }}" target="new">
+                  <i class="fa-brands fa-facebook-f" style="color:rgb(22, 85, 168)"></i></a>
+                      {% endif %}
+                      &nbsp;&nbsp;
+                      {% if profile.instagram_link %}
+                <a href="{{ profile.instagram_link }}" target="new">
+                  <i class="fa-brands fa-instagram" style="color:rgb(22, 85, 168)"></i></a>
+                      {% endif %}
+                      &nbsp;&nbsp;
+                      {% if profile.linkedin_link %}
+                <a href="{{ profile.linkedin_link }}" target="new">
+                  <i class="fa-brands fa-linkedin-in" style="color:rgb(22, 85, 168)"></i></a>
+                      {% endif %}
+                <br/><br/>
+
+                {% if profile.profile_bio %}
+                  <p>
+                    {{profile.profile_bio }}
+                  </p>
+                {% endif %}
                 <br>
                 <form method=POST>
                   {% csrf_token %}
