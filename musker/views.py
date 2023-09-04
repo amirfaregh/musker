@@ -108,6 +108,22 @@ def followers(request, pk):
         messages.success(request,("You must be logged in..."))
         return redirect('home')
 
+def follows(request, pk):
+    if request.user.is_authenticated:
+        if request.user.id == pk:
+
+            profiles = Profile.objects.get(user_id=pk)
+            return render(request, 'follows.html', {
+                "profiles" : profiles,
+            })
+        else:
+            messages.success(request,("That's not your profile page."))
+            return redirect('home')
+
+    else:
+        messages.success(request,("You must be logged in..."))
+        return redirect('home')
+
 def login_user(request):
     if request.method =='POST':
         username = request.POST['username']
@@ -190,3 +206,17 @@ def meep_show(request, pk):
     else:
         messages.success(request,("That Meep does not exists!"))
         return redirect('home')
+    
+def delete_meep(request, pk):
+    if request.user.is_authenticated:
+        meep = get_object_or_404(Meep, id=pk)
+        # Check to see if you own the meep
+        if request.user.username == meep.user.username:
+            messages.success(request,("Meep deleted"))
+            meep.delete()
+            return redirect(request.META.get("HTTP_REFERER"))
+        else:
+            messages.success(request,("you don't own that meep"))
+            return redirect('home')
+    else:
+        return redirect(request.META.get("HTTP_REFERER"))

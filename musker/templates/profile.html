@@ -66,9 +66,12 @@
                           <a href="{% url 'meep_like' meep.id %}"><i class="fa-solid fa-heart" style="color:red"></i></a>
                           {% else %}
                           <a href="{% url 'meep_like' meep.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
+                          {% endif %}
                           &nbsp;
                           <a href="{% url 'meep_show' meep.id %}"><i class="fa-solid fa-share" style="color:rgb(22, 85, 168)"></i></a>
-                          {{meep.id}}
+                          &nbsp;
+                          {% if request.user.username == profile.user.username %}
+                          <a href="{% url 'delete_meep' meep.id %}"><i class="fa-solid fa-trash" style="color:rgb(22, 85, 168)"></i></a>
                           {% endif %}
                         </small>
                       </div>
@@ -77,56 +80,65 @@
                 </div>
                 {% endfor %}
                 {% endif %}
-              </div> 
-              <div class="col-4">
-
-                <br>
+            </div> 
+            <div class="col-4">
+            <br>
+            <br>
+            <div class="card">
+              <div class="card-header">
+                Follows ({{ profile.follows.count }})
+              </div>
+              <div class="card-body">
+                <p class="card-text">
+                  {% for following in profile.follows.all|slice:3 %}
+                  <a href="{% url 'profile' following.user.id %}">@{{ following }}</a> 
+                  &nbsp; 
+                  <a href="{% url 'unfollow' following.user.id %}"> 
+                  <i class="fa-solid fa-user-minus" style="color: #ff0000;"></i></a>
+                  <br>
+                  
+                  {% endfor %}</p>
+                  <div class="card-footer text-end">
+                    <a href="{% url 'follows' profile.user.id %}"
+                    class="btn btn-sm btn-outline-secondary"> See All...</a> 
+                  </div>
+              </div>
+            </div>
                 <br>
                 <div class="card">
-                    <div class="card-header">
-                      Follows ({{ profile.follows.count }})
-                    </div>
-                    <div class="card-body">
-                      <p class="card-text">
-                        {% for following in profile.follows.all %}
-                        <a href="{% url 'profile' following.user.id %}">@{{ following }}</a> 
-                        &nbsp; 
-                        <a href="{% url 'unfollow' following.user.id %}">
-                          <i class="fa-solid fa-user-minus" style="color: #ff0000;"></i></a>
-                        <br>
-                        {% endfor %}</p>
-                    </div>
-                </div>
-                <br>
-                <div class="card">
-                    <div class="card-header">
-                      Followers ({{ profile.followed_by.count }})
-                      <div class="card-body">
-                        <p class="card-text">
-                          {% for following in profile.followed_by.all|slice:3 %}
-                          <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>
-                            {% if following in user.profiles.follows.all %}
-                            <a href="{% url 'unfollow' following.user.id %}">
-                              <i class="fa-solid fa-user-minus" style="color: #ff0000;"></i></a>
-                            {% else %}
-                            <a href="{% url 'follow' following.user.id %}">
-                              <i class="fa-solid fa-user-plus" style="color: #36b002;"></i></a>
-                            {% endif %}
-                          <br>
-                          {% endfor %}
+                  <h5 class="card-header">Followed By</h5>
+                  <div class="card-body">
+                    <p class="card-text">
+                      {% for following in profile.followed_by.all|slice:3 %}
+                        <a href="{% url 'profile' following.user.id %}">@{{ following }}</a>&nbsp;&nbsp;
+                
+                        {% if following in profile.follows.all %}
+                         <a href="{% url 'unfollow' following.user.id %}">
+                  <i class="fa fa-user-minus small" style="color:rgb(255, 7, 7)"></i>
+                </a>
+                         {% else %}
+                         <a href="{% url 'follow' following.user.id %}">
+                  <i class="fa fa-user-plus small" style="color:rgb(0, 255, 13)"></i>
+                </a>
+                         {% endif %}
+                         
+                        <br/>
+                      {% endfor %}
+                      <br/>
                           </div>
                         </p>
-                      </div>
-                      <div class="card-footer">
-                        <a href="{% url 'followers' profile.user.id %}">See All...</a> 
+                        <div class="card-footer text-end">
+                          <a href="{% url 'followers' profile.user.id %}"
+                          class="btn btn-sm btn-outline-secondary"> See All...</a> 
+                        </div>
                       </div>
                     </div>
-                </div>
-                <br>
-                {% if request.user.id == profile.user.id %}
-                <a href="{% url 'update_user' %}" class="btn btn-outline-secondary">update profile</a>
-                {% endif %}
-              </div>
+        </div>
+        <br>
+        {% if request.user.id == profile.user.id %}
+        <a href="{% url 'update_user' %}" class="btn btn-outline-secondary">update profile</a>
+        {% endif %}
         </div>
     </div>
+  </div>
 {% endblock %}

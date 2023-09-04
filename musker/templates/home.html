@@ -26,7 +26,7 @@
 		  {{ meep.body }}<br/>
 		  	<small class="text-muted">
 		  		({{ meep.created_at}}) By 
-		  		@{{ meep.user.username }}
+		  		<a class="card-text" href="{% url 'profile' meep.user.id %}" >@{{ meep.user.username|lower }}</a>
 				- {{meep.number_of_likes}} 
 				{% if user in meep.likes.all %}
 				<a href="{% url 'meep_like' meep.id %}"><i class="fa-solid fa-heart" style="color:red"></i></a>
@@ -36,7 +36,6 @@
 				{% endif %}
 				&nbsp;
 				<a href="{% url 'meep_show' meep.id %}"><i class="fa-solid fa-share" style="color:rgb(22, 85, 168)"></i></a>
-				{{meep.id}}
 			</small>
 		</div><br/><br/>
 	
