@@ -220,3 +220,26 @@ def delete_meep(request, pk):
             return redirect('home')
     else:
         return redirect(request.META.get("HTTP_REFERER"))
+
+def edit_meep(request, pk):
+    if request.user.is_authenticated:
+        # Check to see if you own the meep
+        meep = get_object_or_404(Meep, id=pk)
+        if request.user.username == meep.user.username:
+            form = MeepForm(request.POST or None, instance=meep)
+            if request.method == "POST":
+                if form.is_valid():
+                    meep = form.save(commit=False)
+                    meep.user = request.user
+                    meep.save()
+                    messages.success(request,("Your meep has been updated"))
+                    return redirect('home')
+                    
+            else:
+                return render(request, "edit_meep.html", {'form':form, 'meep':meep})
+        else:
+            messages.success(request,("you don't own that meep"))
+            return redirect('home')
+    else:
+        messages.success(request,("Please login to continue"))
+        return redirect('home')

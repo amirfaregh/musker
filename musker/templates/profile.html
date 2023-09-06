@@ -68,10 +68,12 @@
                           <a href="{% url 'meep_like' meep.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
                           {% endif %}
                           &nbsp;
-                          <a href="{% url 'meep_show' meep.id %}"><i class="fa-solid fa-share" style="color:rgb(22, 85, 168)"></i></a>
+                          <a href="{% url 'meep_show' meep.id %}"><i class="fa-solid fa-maximize" style="color:rgb(22, 85, 168)"></i></a>
                           &nbsp;
                           {% if request.user.username == profile.user.username %}
                           <a href="{% url 'delete_meep' meep.id %}"><i class="fa-solid fa-trash" style="color:rgb(22, 85, 168)"></i></a>
+                          &nbsp;
+                          <a href="{% url 'edit_meep' meep.id %}"><i class="fa-solid fa-edit" style="color:rgb(22, 85, 168)"></i></a>
                           {% endif %}
                         </small>
                       </div>
