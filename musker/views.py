@@ -243,3 +243,15 @@ def edit_meep(request, pk):
     else:
         messages.success(request,("Please login to continue"))
         return redirect('home')
+    
+def search(request):
+    if request.method == "POST":
+        search = request.POST['search']
+        # ['search'] << because we named the input in html 'search'
+        # Search in database:
+        searched = Meep.objects.filter(body__contains = search)
+        
+        return render(request, 'search.html', {'search':search, 'searched':searched})
+    
+    else:
+        return render(request, 'search.html', {})
