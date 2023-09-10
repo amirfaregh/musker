@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Profile, Meep
+from .models import Profile, Meep 
 from django.contrib import messages
 from .forms import MeepForm, SignUpForm, ProfilePicForm
 from django.contrib.auth import authenticate, login, logout
@@ -255,3 +255,15 @@ def search(request):
     
     else:
         return render(request, 'search.html', {})
+    
+def search_user(request):
+    if request.method == "POST":
+        search = request.POST['search']
+        # ['search'] << because we named the input in html 'search'
+        # Search in database:
+        searched = User.objects.filter(username__contains = search)
+    
+        return render(request, 'search_user.html', {'search':search, 'searched':searched})
+    
+    else:
+        return render(request, 'search_user.html', {})
